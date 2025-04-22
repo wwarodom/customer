@@ -2,7 +2,7 @@
 
 import { SignJWT, jwtVerify } from "jose"; // newly install jose
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 const secretKey = process.env.SECRET;
 if (!secretKey) throw new Error("JWT_SECRET is not set");  // must be the same as the backend
@@ -47,7 +47,7 @@ export async function loginUser(userInput: UserInput, remember: boolean) {
     const expires = new Date(Date.now() + timeout * 1000); 
     const session = await encrypt({ id, email, name, expires }); 
     // Save the session in a cookie
-    (await cookies()).set("session", session, { expires, httpOnly: true });
+    (await cookies()).set("access_token", session, { expires, httpOnly: true });
     console.log("after Session  : ", session)
     return { message: "Login Success" }
 }
@@ -55,18 +55,22 @@ export async function loginUser(userInput: UserInput, remember: boolean) {
 export async function logoutUser() {
     // Destroy the session 
     // cookies().set("session", "", { expires: new Date(0) });
-    (await cookies()).delete('session')
+    (await cookies()).delete('access_token')
     return { message: "Logout Success" }
 }
 
 export async function getSession() {
-    const session = (await cookies()).get("session")?.value;
+    // const session = (await cookies()).get("session")?.value;
+    const session = (await cookies()).get('access_token')?.value
     if (!session) return null;
     return await decrypt(session);
 }
 
-export async function updateSession(request: NextRequest) {
-    const session = request.cookies.get("session")?.value;
+// export async function updateSession(request: NextRequest) {}
+
+export async function updateSession() {
+    // const session = request.cookies.get("session")?.value;
+    const session = (await cookies()).get('access_token')?.value
     if (!session) return;
 
     // Refresh the session so it doesn't expire
@@ -74,7 +78,7 @@ export async function updateSession(request: NextRequest) {
     parsed.expires = new Date(Date.now() + TIMEOUT * 1000);
     const res = NextResponse.next();
     res.cookies.set({
-        name: "session",
+        name: "access_session",
         // secure: true,   // if https is used
         value: await encrypt(parsed),
         httpOnly: true,

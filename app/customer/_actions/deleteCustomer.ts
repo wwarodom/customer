@@ -1,4 +1,5 @@
 'use server'
+import { SERVER_URL } from '@/app/constant'
 import { revalidatePath } from 'next/cache'  
 import { cookies } from 'next/headers'  
 import { redirect } from 'next/navigation'
@@ -7,7 +8,7 @@ const deleteCustomer = async (id: number) => {
     const token = (await cookies()).get('access_token')?.value
     
     console.log("id: ", id)
-    const res = await fetch(`http://localhost:3000/customer/${id}`, {
+    const res = await fetch(`${SERVER_URL}/customer/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${token}`

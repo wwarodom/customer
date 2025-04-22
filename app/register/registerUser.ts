@@ -1,5 +1,7 @@
 'use server'
 
+import { SERVER_URL } from "../constant"
+
 export default async function registerUser(prevState: unknown, formData: FormData) {
     const data = {
         username: formData.get('username'),
@@ -7,7 +9,7 @@ export default async function registerUser(prevState: unknown, formData: FormDat
         password: formData.get('password'),
     }
 
-    const res = await fetch('http://localhost:3000/auth/regist', {
+    const res = await fetch(`${SERVER_URL}/auth/regist`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

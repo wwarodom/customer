@@ -1,6 +1,7 @@
 'use server'
 import { token } from "@/utils/manageCookie"
 import { cookies } from "next/headers" 
+import { SERVER_URL } from "../constant"
 
 export default async function loginFormUser(prevState: unknown, formData: FormData) {
     const data = {
@@ -9,7 +10,7 @@ export default async function loginFormUser(prevState: unknown, formData: FormDa
     }
     console.log("data: ", data)
 
-    const res = await fetch(`http://localhost:3000/auth/login`, {
+    const res = await fetch(`${SERVER_URL}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

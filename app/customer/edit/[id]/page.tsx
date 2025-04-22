@@ -4,6 +4,7 @@ import {  useParams } from "next/navigation"
 import { useEffect, useState } from "react" 
 import CustomerType from '../../customer.type'
 import EditForm from "./EditForm"
+import { SERVER_URL } from "@/app/constant"
 
 export default function EditCustomer() {
     const { id } = useParams()
@@ -11,7 +12,7 @@ export default function EditCustomer() {
 
     useEffect(() => {
         const fetchCustomer = async (id: string) => {
-            const res = await fetch(`http://localhost:3000/customer/${id}`)
+            const res = await fetch(`${SERVER_URL}/customer/${id}`)
             const data = await res.json()
             setCustomerData(data)
         }

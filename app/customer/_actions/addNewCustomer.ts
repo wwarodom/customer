@@ -1,5 +1,7 @@
 'use server'
 
+import { SERVER_URL } from "@/app/constant"
+
 const addNewCustomer = async (prevState: unknown, formData: FormData) => {
 
     const data = {
@@ -11,7 +13,7 @@ const addNewCustomer = async (prevState: unknown, formData: FormData) => {
     }
     console.log("data: ", data)
 
-    const res = await fetch('http://localhost:3000/customer', {
+    const res = await fetch(`${SERVER_URL}/customer`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

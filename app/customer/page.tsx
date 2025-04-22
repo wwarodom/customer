@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import CustomerType from './customer.type'
 import DeleteButton from './DeleteButton'
+import { SERVER_URL } from '../constant'
 
 export default async function CustomerPage() {
-    const res = await fetch('http://localhost:3000/customer')
+    const res = await fetch(`${SERVER_URL}/customer`)
 
     const customers: CustomerType[] = await res.json()
 
