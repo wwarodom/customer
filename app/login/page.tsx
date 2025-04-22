@@ -23,6 +23,10 @@ export default function Login() {
     return (<div className="flex flex-col pt-16 items-center">
         <form action={action} className="w-full max-w-sm p-8 space-y-4 border rounded-lg shadow-md bg-orange-100">
             <h1 className="text-xl font-bold">Login</h1>
+
+            {(state.error) &&
+                    (<div className="text-red-500">Error: {state.error} </div>)}
+
             <div>
                 <label htmlFor="email">Email</label>
                 <input className="w-full p-2 rounded bg-blue-50 border-2 border-black" type="email" name="email" defaultValue={email} />
